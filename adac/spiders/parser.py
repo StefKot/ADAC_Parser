@@ -74,25 +74,6 @@ class ADACSpider(scrapy.Spider):
                     print(f"Can't parse {url}")
                     traceback.print_exc()
 
-            # scraped_info = {}
-            # for td in row.css("td"):
-            #     # td = td_selector.get()
-            #     txt = td.css("::text")
-            #     if "data-th" in td.attrib:
-            #         attr_name = translate(td.attrib["data-th"])
-            #         t = txt.get()
-            #         if attr_name == 'Размер':
-            #             t = t.replace(' cm bis ', '-').replace('cm', 'см')
-            #         if 'ADAC' in attr_name:
-            #             t = 6 - float(t.replace(',', '.'))
-
-            #         scraped_info[attr_name] = translate(t)
-            #     else:
-            #         scraped_info["custom"] = txt
-            # print(scraped_info)
-
-            # print(td.text, end=" ")
-            # print(''.join(td.itertext()), end="  |  ")
-
+        
         for a in response.css('div[data-testid="pagination"] a'):
             yield response.follow(a, callback=self.parse)
