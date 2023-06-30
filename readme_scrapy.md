@@ -1,3 +1,9 @@
+# Installing the required library:
+    Windows:
+        pip install scrapy
+    Linux:
+        sudo apt install scrapy
+        
 # Usage:
     scrapy crawl adac
 # Test:
