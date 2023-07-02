@@ -16,6 +16,16 @@ def number_to_word(n):
 
 def translate(word):
     scraped_info = {
+        'Zugelassenes Gewicht des Kindes': 'Допустимый вес ребенка',
+        'k.A.': 'Нет информации',
+        'Baby': 'Младенец',
+        'Kleinkind': 'Малыш',
+        'Kind': 'Ребенок',
+        'Baby und Kleinkind': 'Младенец и малыш',
+        'Kleinkind und Kind': 'Малыш и ребенок',
+        'Baby, Kleinkind, Kind': 'Младенец, малыш, ребенок',
+        'Zugelassene Größe des Kindes': 'Допустимый рост ребенка',
+        'ADAC Alterklasse': 'Возрастная группа ADAC',
         'Testergebnis': 'ADAC безопасность',
         'Sicherheit': 'Надежность',
         'Bedienung': 'Обслуживание',
@@ -41,16 +51,16 @@ class ADACSpider(scrapy.Spider):
         data = {
             "Кресло": response.css("h1::text").get(),
         }
-
+        
         divs = response.css("main > div")
         for div in divs:
             if "ADAC Urteil" in div.get():
-                adac_rating = div.css("h3 div::text").get()   # ('1,7', )
+                adac_rating = div.css("h3 div::text").get()   
                 if adac_rating is None:
                     adac_rating = response.css("main > div > h3 > div > div::text").get()
                 if isinstance(adac_rating, tuple):
                     adac_rating = ''.join(adac_rating)
-                adac_rating = float(adac_rating.replace(",", "."))  # <-------------------
+                adac_rating = float(adac_rating.replace(",", "."))  
                 data[translate("Testergebnis")] = number_to_word(adac_rating)
 
                 for button in div.css("button"):
@@ -58,6 +68,14 @@ class ADACSpider(scrapy.Spider):
                     if key != 'Verarbeitung und Reinigung':
                         n = float(button.css("dd p::text").get().replace(',', '.'))
                         data[key] = number_to_word(n)
+
+            if "Allgemeine Daten" in div.get():
+                child_weight = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)::text').get()                       
+                data[translate("Zugelassenes Gewicht des Kindes")] = translate(child_weight.replace(' bis ', '-').replace('bis ', 'до ').replace('kg', 'кг'))
+                child_height = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(3) > td:nth-child(2)::text').get()                       
+                data[translate("Zugelassene Größe des Kindes")] = translate(child_height.replace(' cm bis ', '-').replace('cm', 'см'))
+                child_age_group = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(4) > td:nth-child(2)::text').get()                       
+                data[translate("ADAC Alterklasse")] = translate(child_age_group)
 
 
         yield data
