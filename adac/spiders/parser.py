@@ -2,16 +2,16 @@ import scrapy
 import traceback
 
 
-def number_to_word(n):
-    if 0.6 <= n <= 1.5:
+def number_to_word(number):
+    if 0.6 <= number <= 1.5:
         return "Отлично"
-    if 1.6 <= n <= 2.5:
+    if 1.6 <= number <= 2.5:
         return "Хорошо"
-    if 2.6 <= n <= 3.5:
+    if 2.6 <= number <= 3.5:
         return "Нормально"
-    if 3.6 <= n <= 4.5:
+    if 3.6 <= number <= 4.5:
         return "Плохо"
-    if 4.6 <= n <= 5.5:
+    if 4.6 <= number <= 5.5:
         return "Очень плохо"
 
 def translate(word):
@@ -48,8 +48,12 @@ class ADACSpider(scrapy.Spider):
     }
 
     def parse_product(self, response):
+        info = response.css('body > div > div > script::text').get()
+        start = info.find("-id-") + 4
+        ID = info[start:start+3]
         data = {
             "Кресло": response.css("h1::text").get(),
+            "ID": ID,
         }
         
         divs = response.css("main > div")
@@ -61,6 +65,7 @@ class ADACSpider(scrapy.Spider):
                 if isinstance(adac_rating, tuple):
                     adac_rating = ''.join(adac_rating)
                 adac_rating = float(adac_rating.replace(",", "."))  
+                data["ADAC Рейтинг"] = adac_rating
                 data[translate("Testergebnis")] = number_to_word(adac_rating)
 
                 for button in div.css("button"):
