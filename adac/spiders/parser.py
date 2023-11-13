@@ -1,5 +1,8 @@
 import scrapy
 import traceback
+import os
+
+import config
 
 
 def number_to_word(number):
@@ -43,7 +46,7 @@ class ADACSpider(scrapy.Spider):
     ]
     
     custom_settings = {
-        'FEED_URI': "adac_%(time)s.json",
+        'FEED_URI': os.path.join(config.path, "adac.json"),
         'FEED_FORMAT': 'json',
     }
 
@@ -74,12 +77,12 @@ class ADACSpider(scrapy.Spider):
                         n = float(button.css("dd p::text").get().replace(',', '.'))
                         data[key] = number_to_word(n)
 
-            if "Allgemeine Daten" in div.get():
-                child_weight = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)::text').get()                       
+            if "Allgemeine Daten" in div.get():                     
+                child_weight = response.css('main > div.sc-erPKOz.ifHSGr.sc-zsiNS.sc-totRW.jdViRg.dgueYz > div > table > tbody > tr:nth-child(2) > td:nth-child(2)::text').get()
                 data[translate("Zugelassenes Gewicht des Kindes")] = translate(child_weight.replace(' bis ', '-').replace('bis ', 'до ').replace('kg', 'кг'))
-                child_height = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(3) > td:nth-child(2)::text').get()                       
-                data[translate("Zugelassene Größe des Kindes")] = translate(child_height.replace(' cm bis ', '-').replace('cm', 'см'))
-                child_age_group = response.css('div > main > div:nth-child(5) > div > table > tbody > tr:nth-child(4) > td:nth-child(2)::text').get()                       
+                child_height = response.css('main > div.sc-erPKOz.ifHSGr.sc-zsiNS.sc-totRW.jdViRg.dgueYz > div > table > tbody > tr:nth-child(3) > td:nth-child(2)::text').get()
+                data[translate("Zugelassene Größe des Kindes")] = translate(child_height.replace(' cm bis ', '-').replace('cm', 'см'))                  
+                child_age_group = response.css('main > div.sc-erPKOz.ifHSGr.sc-zsiNS.sc-totRW.jdViRg.dgueYz > div > table > tbody > tr:nth-child(4) > td:nth-child(2)::text').get()
                 data[translate("ADAC Alterklasse")] = translate(child_age_group)
 
 
