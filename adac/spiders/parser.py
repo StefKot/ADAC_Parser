@@ -46,9 +46,14 @@ class ADACSpider(scrapy.Spider):
     ]
     
     custom_settings = {
-        'FEED_URI': os.path.join(config.path, "adac.json"),
+        'FEED_URI': config.full_path,
         'FEED_FORMAT': 'json',
     }
+
+    def __init__(self, *args, **kwargs):
+        super(ADACSpider, self).__init__(*args, **kwargs)
+        if os.path.exists(config.full_path):
+            os.remove(config.full_path)
 
     def parse_product(self, response):
         info = response.css('body > div > div > script::text').get()
