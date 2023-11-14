@@ -13,7 +13,7 @@ BOT_NAME = "adac"
 SPIDER_MODULES = ["adac.spiders"]
 NEWSPIDER_MODULE = "adac.spiders"
 
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "adac (+http://www.yourdomain.com)"
