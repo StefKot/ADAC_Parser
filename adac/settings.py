@@ -18,7 +18,7 @@ NEWSPIDER_MODULE = "adac.spiders"
 # logging.WARNING - for warning messages
 # logging.INFO - for informational messages
 # logging.DEBUG - for debugging messages (lowest severity)
-LOG_LEVEL = logging.ERROR
+LOG_LEVEL = logging.INFO
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "adac (+http://www.yourdomain.com)"
 USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
