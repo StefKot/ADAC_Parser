@@ -19,10 +19,9 @@ NEWSPIDER_MODULE = "adac.spiders"
 # logging.INFO - for informational messages
 # logging.DEBUG - for debugging messages (lowest severity)
 LOG_LEVEL = logging.ERROR
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "adac (+http://www.yourdomain.com)"
-
+USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
@@ -88,10 +87,11 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 10
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
+HTTPCACHE_ENABLED = True
+REDIRECT_ENABLED = False
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = "httpcache"
-#HTTPCACHE_IGNORE_HTTP_CODES = []
+HTTPCACHE_IGNORE_HTTP_CODES = [301, 302]
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 FEED_FORMAT="json"
