@@ -65,3 +65,5 @@ Used to parse the characteristics of child seats and collect this information in
 * `Permissible weight of the child`
 * `Permissible height of the child`
 * `ADAC Age Group`
+
+[More information](https://github.com/StefKot/ADAC_Parser/wiki)
