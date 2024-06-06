@@ -36,7 +36,7 @@ CONCURRENT_REQUESTS = 16
 ```
 
 Enable and configure HTTP caching (disabled by default)  
-[More information](https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings) 
+[More information about HTTP caching](https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings) 
 ``` python
 HTTPCACHE_ENABLED = True
 REDIRECT_ENABLED = False
@@ -66,4 +66,4 @@ Used to parse the characteristics of child seats and collect this information in
 * `Permissible height of the child`
 * `ADAC Age Group`
 
-[More information](https://github.com/StefKot/ADAC_Parser/wiki)
+[More information in Wiki](https://github.com/StefKot/ADAC_Parser/wiki)
